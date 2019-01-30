@@ -12,6 +12,8 @@
   - body-parser: 用于解析服务端请求
   - nodemon: 用于检测文件变化，用于自动开启服务器
   - mysql: sql的nodejs驱动
+  - cors: express用的跨域访问技术
+  - morgen: express日志
 ## 所用原型
 
 [Work Life](https://www.processon.com/view/link/59661847e4b08e72e48a6cf4)
