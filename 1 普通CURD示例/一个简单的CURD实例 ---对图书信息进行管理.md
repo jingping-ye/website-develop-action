@@ -34,7 +34,9 @@ npm install express body-parser cors morgan nodemon mysql sequelize --save
 4. 安装完成之后建立以下目录和文件
 
 ![后台目录](https://i.imgur.com/zDYcijP.png)
+
 5. 使用`npm init -f`生成一个`package.json`文件
+
 6. 修改为使用nodemon启动
 ```
  "scripts": {
@@ -42,6 +44,7 @@ npm install express body-parser cors morgan nodemon mysql sequelize --save
     "start": "nodemon server.js"
   },
 ```
+
 7. 在`server.js`中写入以下代码用于测试，在`server`文件夹下输入`npm start`启动后台程序
 ```
 const express = require('express');
