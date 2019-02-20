@@ -18,7 +18,7 @@ npm run dev
 ```
 2. 安装完毕之后，输入`npm run dev`，在浏览器输入`http://localhost:8080/#`后显示以下界面，则client项目生成完毕!
 ![vue初始化界面](https://i.imgur.com/nf8dCq1.png)
-1.2 后端开发环境准备
+### 1.2 后端开发环境准备
 1. 在`book-curd-example`下新建一个文件夹`server`文件夹用于保存后端代码
 2. 进入`server`文件夹
 3. 安装`express`和其他模块
@@ -32,8 +32,11 @@ npm install express body-parser cors morgan nodemon mysql sequelize --save
 -  mysql2 mysql数据库驱动管理工具
 -  sequelize mysql-ORM工具
 4. 安装完成之后建立以下目录和文件
+
 ![后台目录](https://i.imgur.com/zDYcijP.png)
+
 5. 使用`npm init -f`生成一个`package.json`文件
+
 6. 修改为使用nodemon启动
 ```
  "scripts": {
@@ -41,6 +44,7 @@ npm install express body-parser cors morgan nodemon mysql sequelize --save
     "start": "nodemon server.js"
   },
 ```
+
 7. 在`server.js`中写入以下代码用于测试，在`server`文件夹下输入`npm start`启动后台程序
 ```
 const express = require('express');
