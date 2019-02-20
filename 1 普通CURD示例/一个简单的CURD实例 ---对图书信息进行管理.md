@@ -32,6 +32,7 @@ npm install express body-parser cors morgan nodemon mysql sequelize --save
 -  mysql2 mysql数据库驱动管理工具
 -  sequelize mysql-ORM工具
 4. 安装完成之后建立以下目录和文件
+
 ![后台目录](https://i.imgur.com/zDYcijP.png)
 5. 使用`npm init -f`生成一个`package.json`文件
 6. 修改为使用nodemon启动
