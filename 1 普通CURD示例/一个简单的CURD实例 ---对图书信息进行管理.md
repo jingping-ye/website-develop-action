@@ -18,7 +18,7 @@ npm run dev
 ```
 2. 安装完毕之后，输入`npm run dev`，在浏览器输入`http://localhost:8080/#`后显示以下界面，则client项目生成完毕!
 ![vue初始化界面](https://i.imgur.com/nf8dCq1.png)
-1.2 后端开发环境准备
+### 1.2 后端开发环境准备
 1. 在`book-curd-example`下新建一个文件夹`server`文件夹用于保存后端代码
 2. 进入`server`文件夹
 3. 安装`express`和其他模块
