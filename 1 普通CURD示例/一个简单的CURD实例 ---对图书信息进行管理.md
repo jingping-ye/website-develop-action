@@ -14,6 +14,10 @@
   - [3.2 创建表模型](#32-创建表模型)
   - [3.3 编写接口](#33-编写接口)
   - [3.4 接口测试](#34-接口测试)
+- [4 前端模块开发](#4-前端模块开发)
+  - [4.1 安装并引入前端开发所需外部模块](#41-安装并引入前端开发所需外部模块)
+  - [4.2 建立路由](#42-建立路由)
+  - [4.3 编写组件](#43-编写组件)
 
 ## 1 开发环境
 
@@ -254,10 +258,11 @@ exports.create = (req, res) => {
     intro: req.body.intro,
     remark: req.body.remark
   })
-    .then(() => {
+    .then(book => {
       let msg = {
         code: 200,
-        msg: '新增成功!'
+        msg: '新增成功!',
+        id: book.id
       };
       res.status(200).json(msg);
     })
@@ -374,3 +379,684 @@ let server = app.listen(process.env.PORT || 8081, () => {
    ![查询所有数据](https://i.imgur.com/Rf1ViaX.png)
 6. 查询单个实体数据接口测试
    ![查询单个实体数据](https://i.imgur.com/ApdsRpQ.png)
+
+## 4 前端模块开发
+
+### 4.1 安装并引入前端开发所需外部模块
+
+1.安装`axios`模块
+
+- `npm install axios --save`
+- 编写文件`/src/utils/http.js`，引入封装好的 axios 类
+
+```
+  import axios from 'axios'
+  // import qs from 'qs'
+
+  let httpInstance = axios.create()
+
+  httpInstance.defaults.baseURL = 'http://localhost:8081/'
+  httpInstance.defaults.timeout = 5000
+  // post 方法、get 方法：不处理，直接调用
+  // application/x-www-form-urlencode 格式
+  httpInstance.formurl = (url, data, config) => {
+  return httpInstance.post(url, data, {
+  headers: {
+  'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  ...config
+  })
+  };
+  // multipart/formdata 格式
+  httpInstance.formdata = (url, data, config) => {
+  return httpInstance.post(url, data, {
+  headers: {
+  'Content-Type': 'multipart/form-data'
+  },
+  ...config
+  })
+  };
+  // 多媒体图片请求方法
+
+  // request 拦截器
+  httpInstance.interceptors.request.use(
+  config => {
+  // 添加 token
+  // config.headers.token = cookieStorange.token
+  console.log(config)
+  return config
+  },
+  error => {
+  return Promise.reject(error)
+  }
+  )
+  // reponse 拦截器
+  httpInstance.interceptors.response.use(
+  response => {
+  // 对图片、文件、等等进行处理
+  if (response.data instanceof Blob && response.data.type === 'application/json') {
+  // 对图片进行操作
+  return Promise.resolve(response)
+  } else if (response.data instanceof Blob) {
+  // 对文件进行操作
+  return Promise.resolve(response)
+  } else {
+  return Promise.resolve(response)
+  }
+  },
+  error => {
+  // 对错误状态码进行处理
+  // 500:服务器内部错误
+  // 504:网关超时
+  return Promise.reject(error)
+  }
+  )
+  export default httpInstance
+```
+
+- 在`main.js`中引入`http.js`文件,并将其注册为 vue 全局变量
+
+```
+  import http from './util/http'
+  Vue.prototype.$http = http
+```
+
+2. 安装`element-ui`模块
+
+- `npm install elemenr-ui --save`
+- 在`main.js`中引入`element-ui`模块
+
+```
+  import ElementUI from 'element-ui'
+  import 'element-ui/lib/theme-chalk/index.css'
+  Vue.use(ElementUI)
+```
+
+### 4.2 建立路由
+
+1. 建立文件
+   在 components 下新建 3 个文件`book-list.vue`、`book-detail.vue`、`book-add.vue`。删除原有的`HelloWorld.vue`文件。
+2. 修改路由
+   在`router/main.js`中将路由修改如下
+
+```
+import Vue from 'vue'
+import Router from 'vue-router'
+import BookList from '@/components/book-list'
+
+Vue.use(Router)
+
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'book-list',
+      component: BookList
+    }
+  ]
+})
+
+```
+
+3. 删除`App.vue`文件中以下代码
+
+```
+<img src="./assets/logo.png">
+```
+
+4. 在`book-list.vue`文件中写入以下代码
+
+```
+<template>
+  <div>
+    Hello World!
+  </div>
+</template>
+<script>
+export default {}
+</script>
+<style scoped>
+</style>
+
+```
+
+5. 使用`npm start`运行项目，在浏览器中访问，则会出现`Hello World`的文字
+
+### 4.3 编写组件
+
+1. `book-list.vue`
+   （1）效果图
+
+![图书列表](https://i.imgur.com/rLinjBR.png)
+(2) 代码
+
+```
+<template>
+  <div>
+    <header>图书列表</header>
+    <div class="container">
+      <div class="operate-btn">
+        <el-button @click="addBook">新增图书</el-button>
+      </div>
+      <el-table :data="tableData"
+        border
+        style="width: 100%">
+        <el-table-column type="index">
+        </el-table-column>
+        <el-table-column prop="name"
+          label="图书名称"
+          min-width="180px">
+        </el-table-column>
+        <el-table-column prop="isbn"
+          label="ISBN编号"
+          min-width="180px">
+        </el-table-column>
+        <el-table-column prop="author"
+          label="作者"
+          min-width="180px">
+        </el-table-column>
+        <el-table-column prop="print"
+          label="出版社"
+          min-width="180px">
+        </el-table-column>
+        <el-table-column prop="publish_time"
+          label="出版日期"
+          min-width="180px">
+        </el-table-column>
+        <el-table-column label="操作"
+          min-width="200px">
+          <template slot-scope="scope">
+            <el-button size="mini"
+              @click="handleDetail(scope.$index, scope.row)">查看</el-button>
+            <el-button size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <book-detail :bookId="bookId"
+      :visible="bookDetailVisible"
+      @closedDialog="closedDetailDialog">
+    </book-detail>
+    <book-add :visible="bookAddVisible"
+      @closedDialog="closeAddDialog"
+      @addNewBook="addNewBook">
+    </book-add>
+  </div>
+</template>
+<script>
+import BookDetail from './book-detail';
+import BookAdd from './book-add';
+export default {
+  components: {
+    BookDetail,
+    BookAdd
+  },
+  mounted () {
+    this.getBookList()
+  },
+  data () {
+    return {
+      tableData: [],
+      bookId: null,
+      bookDetailVisible: false,
+      bookAddVisible: false
+    }
+  },
+  methods: {
+    addNewBook (val) {
+      this.bookId = val
+      this.bookDetailVisible = true
+    },
+    addBook () {
+      this.bookAddVisible = true
+    },
+    refreshBookList () {
+      this.getBookList()
+    },
+    closeAddDialog () {
+      this.bookAddVisible = false
+      this.refreshBookList()
+    },
+    closedDetailDialog () {
+      this.bookDetailVisible = false
+      this.refreshBookList()
+    },
+    handleDelete (index, row) {
+      this.$http
+        .delete(`/book/delete/${row.id}`)
+        .then(res => {
+          this.$message.success(res.data.msg)
+          this.refreshBookList()
+        })
+        .catch(err => {
+          console.log('err=>', err)
+        })
+    },
+    handleDetail (index, row) {
+      this.bookId = row.id
+      this.bookDetailVisible = true
+    },
+    getBookList () {
+      this.$http
+        .get('/book/list')
+        .then(res => {
+          this.tableData = res.data
+        })
+        .catch(err => {
+          console.log('err->', err)
+        })
+    }
+  }
+}
+</script>
+<style scoped>
+header {
+  font-size: 36px;
+  height: 60px;
+  padding-top: 30px;
+  padding-left: 40px;
+  box-shadow: 0px 15px 10px -15px #ccc;
+  margin-bottom: 10px;
+}
+.container {
+  text-align: center;
+  box-shadow: 0px -15px 10px -15px #ccc;
+  padding: 30px;
+}
+.el-table {
+  padding-top: 20px;
+}
+.operate-btn {
+  text-align: right;
+  margin-bottom: 10px;
+}
+</style>
+
+```
+
+2. `book-add.vue`
+   （1）效果图
+
+![新增图书](https://i.imgur.com/WP2OQ24.png)
+
+(2)代码
+
+```
+<template>
+  <el-dialog :visible.sync="dialogVisible"
+    @closed="closedDialog"
+    min-width="360px">
+    <div slot="title">
+      <span class="title-name">
+        <span>新增图书</span>
+      </span>
+    </div>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">名称</div>
+      </el-col>
+      <el-col :span="20">
+        <el-input v-model="bookInfo.name"
+          size="medium"></el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">ISBN编号</div>
+      </el-col>
+      <el-col :span="20">
+        <el-input v-model="bookInfo.isbn"
+          size="medium"></el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">作者</div>
+      </el-col>
+      <el-col :span="20">
+        <el-input v-model="bookInfo.author"
+          size="medium"></el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">出版社</div>
+      </el-col>
+      <el-col :span="20">
+        <el-input v-model="bookInfo.print"
+          size="medium"></el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">出版日期</div>
+      </el-col>
+      <el-col :span="20">
+        <el-date-picker v-model="bookInfo.publish_time"
+          type="date"
+          placeholder="选择日期"
+          size="medium">
+        </el-date-picker>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">简介</div>
+      </el-col>
+      <el-col :span="20">
+        <el-input type="textarea"
+          :autosize="{ minRows: 2, maxRows: 4}"
+          placeholder="请输入内容"
+          v-model="bookInfo.intro"
+          max-length="200">
+        </el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">其他</div>
+      </el-col>
+      <el-col :span="20">
+        <el-input type="textarea"
+          :autosize="{ minRows: 2, maxRows: 4}"
+          placeholder="请输入内容"
+          v-model="bookInfo.remark"
+          max-length="200">
+        </el-input>
+      </el-col>
+    </el-row>
+    <div slot="footer"
+      class="dialog-footer">
+      <el-button @click="cancelEdit"
+        size="medium">取 消</el-button>
+      <el-button type="primary"
+        @click="addBook"
+        size="medium">确 定</el-button>
+    </div>
+  </el-dialog>
+</template>
+<script>
+export default {
+  props: {
+    visible: {
+      type: Boolean
+    }
+  },
+  watch: {
+    visible: {
+      handler (newV, oldV) {
+        this.dialogVisible = newV
+      }
+    }
+  },
+  mounted () {},
+  data () {
+    return {
+      dialogVisible: false,
+      bookInfo: {}
+    }
+  },
+  methods: {
+    addBook () {
+      this.$http
+        .post('/book/add', this.bookInfo)
+        .then(res => {
+          this.$message.success(res.data.msg)
+          let bookId = res.data.setTimeout(() => {
+            this.$emit('addNewBook', bookId)
+            this.closedDialog()
+          }, 1000)
+        })
+        .catch(err => {
+          console.log('err=>', err)
+        })
+    },
+    cancelEdit () {
+      this.closedDialog()
+    },
+    resetData () {
+      this.dialogVisible = false
+      this.bookInfo = {}
+    },
+    closedDialog () {
+      this.$emit('closedDialog')
+      this.resetData()
+    }
+  }
+}
+</script>
+<style scoped>
+.el-row {
+  line-height: 40px;
+  margin-top: 10px;
+}
+.label {
+  font-weight: bold;
+}
+.edit-btn {
+  margin-left: 10px;
+}
+.title-name {
+  font-size: 30px;
+}
+.dialog-footer {
+  text-align: center;
+}
+</style>
+
+```
+
+3. `book-detail.vue`
+   (1)效果图
+
+![图书细节](https://i.imgur.com/oyKpvpS.png)
+![编辑状态](https://i.imgur.com/uiXv4xR.png)
+（2）代码
+
+```
+<template>
+  <el-dialog :visible.sync="dialogVisible"
+    @closed="closedDialog">
+    <div slot="title">
+      <span class="title-name">图书信息</span>
+      <el-button size="small"
+        icon="el-icon-edit"
+        round
+        class="edit-btn"
+        @click="editBookInfo">编辑</el-button>
+    </div>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">名称</div>
+      </el-col>
+      <el-col :span="20">
+        <span v-if="!isEdit">{{bookInfo.name}}</span>
+        <el-input v-model="bookInfo.name"
+          v-if="isEdit"
+          size="medium"></el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">ISBN编号</div>
+      </el-col>
+      <el-col :span="20">
+        <span v-if="!isEdit">{{bookInfo.isbn}}</span>
+        <el-input v-if="isEdit"
+          v-model="bookInfo.isbn"
+          size="medium"></el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">作者</div>
+      </el-col>
+      <el-col :span="20">
+        <span v-if="!isEdit">{{bookInfo.author}}</span>
+        <el-input v-if="isEdit"
+          v-model="bookInfo.author"
+          size="medium"></el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">出版社</div>
+      </el-col>
+      <el-col :span="20">
+        <span v-if="!isEdit">{{bookInfo.print}}</span>
+        <el-input v-if="isEdit"
+          v-model="bookInfo.print"
+          size="medium"></el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">出版日期</div>
+      </el-col>
+      <el-col :span="20">
+        <span v-if="!isEdit">{{bookInfo.publish_time}}</span>
+        <el-date-picker v-if="isEdit"
+          v-model="bookInfo.publish_time"
+          type="date"
+          placeholder="选择日期"
+          size="medium">
+        </el-date-picker>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">简介</div>
+      </el-col>
+      <el-col :span="20">
+        <span v-if="!isEdit">{{bookInfo.intro}}</span>
+        <el-input v-if="isEdit"
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 4}"
+          placeholder="请输入内容"
+          v-model="bookInfo.intro"
+          max-length="200">
+        </el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4">
+        <div class="label">其他</div>
+      </el-col>
+      <el-col :span="20">
+        <span v-if="!isEdit">{{bookInfo.remark}}</span>
+        <el-input type="textarea"
+          v-if="isEdit"
+          :autosize="{ minRows: 2, maxRows: 4}"
+          placeholder="请输入内容"
+          v-model="bookInfo.remark"
+          max-length="200">
+        </el-input>
+      </el-col>
+    </el-row>
+    <div slot="footer"
+      class="dialog-footer"
+      v-if="isEdit">
+      <el-button @click="cancelEdit"
+        size="medium">取 消</el-button>
+      <el-button type="primary"
+        @click="updateBookInfo"
+        size="medium">确 定</el-button>
+    </div>
+  </el-dialog>
+</template>
+<script>
+export default {
+  props: {
+    bookId: {
+      type: Number
+    },
+    visible: {
+      type: Boolean
+    }
+  },
+  watch: {
+    visible: {
+      handler (newV, oldV) {
+        this.dialogVisible = newV
+        if (this.dialogVisible) {
+          this.getBookById()
+        }
+      }
+    }
+  },
+  mounted () {},
+  data () {
+    return {
+      dialogVisible: false,
+      bookInfo: {},
+      isEdit: false
+    }
+  },
+  methods: {
+    refreshBookInfo () {
+      this.getBookById()
+    },
+    updateBookInfo () {
+      this.$http
+        .put(`/book/update/${this.bookId}`, this.bookInfo)
+        .then(res => {
+          console.log(this.$message)
+          this.$message.success(res.data.msg)
+          this.isEdit = false
+          this.refreshBookInfo()
+        })
+        .catch(err => {
+          console.log('err->', err)
+          this.isEdit = false
+        })
+    },
+    cancelEdit () {
+      this.isEdit = false
+    },
+    resetData () {
+      this.dialogVisible = false
+      this.bookInfo = {}
+      this.isEdit = false
+    },
+    closedDialog () {
+      this.$emit('closedDialog')
+      this.resetData()
+    },
+    getBookById () {
+      this.$http
+        .get(`/book/${this.bookId}`)
+        .then(res => {
+          this.bookInfo = res.data
+        })
+        .catch(err => {
+          console.log('err->', err)
+        })
+    },
+    editBookInfo () {
+      this.isEdit = true
+    }
+  }
+}
+</script>
+<style scoped>
+.el-row {
+  line-height: 40px;
+  margin-top: 10px;
+}
+.label {
+  font-weight: bold;
+}
+.edit-btn {
+  margin-left: 10px;
+}
+.title-name {
+  font-size: 30px;
+}
+.dialog-footer {
+  text-align: center;
+}
+</style>
+
+```

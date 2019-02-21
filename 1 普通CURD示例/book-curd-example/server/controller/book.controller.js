@@ -12,10 +12,11 @@ exports.create = (req, res) => {
     intro: req.body.intro,
     remark: req.body.remark
   })
-    .then(() => {
+    .then(book => {
       let msg = {
         code: 200,
-        msg: '新增成功!'
+        msg: '新增成功!',
+        id: book.id
       };
       res.status(200).json(msg);
     })

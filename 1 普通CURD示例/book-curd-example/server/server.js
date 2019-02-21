@@ -8,10 +8,11 @@ app.use(bodyParser.json());
 const cors = require('cors');
 const corsOptions = {
   origin: 'http://localhost:8080',
-  optionSuccessStatus: 200
+  optionSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
 };
 app.use(cors(corsOptions));
-
+// app.use(cors());
 const morgan = require('morgan');
 app.use(morgan('combined'));
 
