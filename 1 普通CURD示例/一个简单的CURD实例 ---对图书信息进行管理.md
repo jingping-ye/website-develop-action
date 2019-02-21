@@ -216,7 +216,7 @@ sequelize-auto -h localhost -d book_curd_example -u root -x 123456 -p 3306 -t bo
 
 ### 3.3 编写接口
 
-1. 创建`/server/route/book.controller.js`文件，用来定义接口
+1. 创建`/server/route/book.route.js`文件，用来定义接口
 
 ```
 //  图书的增删改查
