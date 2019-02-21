@@ -3,7 +3,19 @@
     <header>图书列表</header>
     <div class="container">
       <div class="operate-btn">
-        <el-button @click="addBook">新增图书</el-button>
+        <el-button @click="addBook"
+          class="add-btn"
+          size="medium">新增图书</el-button>
+        <el-input placeholder="输入书名或者作者名进行搜索"
+          v-model="searchInfo"
+          class="search-input"
+          size="medium"
+          @keyup.enter.native="searchBook"
+          @change="changeSearchInfo">
+          <el-button slot="append"
+            icon="el-icon-search"
+            @click="searchBook"></el-button>
+        </el-input>
       </div>
       <el-table :data="tableData"
         border
@@ -68,10 +80,29 @@ export default {
       tableData: [],
       bookId: null,
       bookDetailVisible: false,
-      bookAddVisible: false
+      bookAddVisible: false,
+      searchInfo: ''
     }
   },
   methods: {
+    changeSearchInfo () {
+      if (!this.searchInfo) {
+        this.getBookList()
+      }
+    },
+    searchBook () {
+      let params = {
+        searchInfo: this.searchInfo
+      }
+      this.$http
+        .post('/book/search', params)
+        .then(res => {
+          this.tableData = res.data
+        })
+        .catch(err => {
+          console.log('err=>', err)
+        })
+    },
     addNewBook (val) {
       this.bookId = val
       this.bookDetailVisible = true
@@ -138,5 +169,11 @@ header {
 .operate-btn {
   text-align: right;
   margin-bottom: 10px;
+}
+.search-input {
+  width: 280px;
+}
+.add-btn {
+  float: left;
 }
 </style>

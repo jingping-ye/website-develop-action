@@ -15,4 +15,7 @@ module.exports = function(app) {
 
   //  根据Id查询图书信息
   app.get('/book/:bookId', book.findById);
+
+  //  根据书名或者作者名搜索图书信息
+  app.post('/book/search', book.search);
 };

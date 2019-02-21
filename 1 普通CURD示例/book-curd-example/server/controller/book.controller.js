@@ -1,5 +1,7 @@
 const db = require('../config/db.config.js');
 const Book = db.book; //  引入表模型
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 //  增加图书
 exports.create = (req, res) => {
@@ -45,7 +47,6 @@ exports.delete = (req, res) => {
 
 //  更新图书信息
 exports.update = (req, res) => {
-  const id = req.params.bookId;
   Book.update(req.body, { where: { id: req.params.bookId } })
     .then(() => {
       let msg = {
@@ -61,9 +62,11 @@ exports.update = (req, res) => {
 
 // 查询所有图书信息
 exports.findAll = (req, res) => {
-  Book.findAll()
+  Book.findAll({
+    attributes: ['id', 'name', 'isbn', 'author', 'print', 'publish_time']
+  })
     .then(book => {
-      res.json(book);
+      res.status(200).json(book);
     })
     .catch(err => {
       res.status(500).json('Error -> ' + err);
@@ -78,5 +81,33 @@ exports.findById = (req, res) => {
     })
     .catch(err => {
       res.status(500).book('Error -> ' + err);
+    });
+};
+
+//  根据作者名或者书名查询图书信息
+exports.search = (req, res) => {
+  let searchInfo = req.body.searchInfo;
+  Book.findAll({
+    where: {
+      [Op.or]: [
+        {
+          name: {
+            [Op.like]: `%${searchInfo}%`
+          }
+        },
+        {
+          author: {
+            [Op.like]: `%${searchInfo}%`
+          }
+        }
+      ]
+    },
+    attributes: ['id', 'name', 'isbn', 'author', 'print', 'publish_time']
+  })
+    .then(book => {
+      res.status(200).json(book);
+    })
+    .catch(err => {
+      res.status(500).json('Error -> ' + err);
     });
 };
