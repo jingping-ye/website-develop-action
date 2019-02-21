@@ -118,7 +118,8 @@ export default {
         .post('/book/add', this.bookInfo)
         .then(res => {
           this.$message.success(res.data.msg)
-          let bookId = res.data.setTimeout(() => {
+          let bookId = res.data.id
+          setTimeout(() => {
             this.$emit('addNewBook', bookId)
             this.closedDialog()
           }, 1000)
