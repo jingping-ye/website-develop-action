@@ -525,8 +525,8 @@ export default {}
 ### 4.3 编写组件
 
 1. `book-list.vue`
-   （1）效果图
 
+（1）效果图
 ![图书列表](https://i.imgur.com/rLinjBR.png)
 (2) 代码
 
@@ -677,8 +677,8 @@ header {
 ```
 
 2. `book-add.vue`
-   （1）效果图
 
+（1）效果图
 ![新增图书](https://i.imgur.com/WP2OQ24.png)
 
 (2)代码
@@ -849,8 +849,8 @@ export default {
 ```
 
 3. `book-detail.vue`
-   (1)效果图
 
+（1）效果图
 ![图书细节](https://i.imgur.com/oyKpvpS.png)
 ![编辑状态](https://i.imgur.com/uiXv4xR.png)
 （2）代码
