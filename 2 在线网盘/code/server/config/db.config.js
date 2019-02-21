@@ -1,11 +1,11 @@
-//  连接至mysql数据库
-const env = require('./env');
+const env = require('./env.js');
 
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(env.database, env.username, env.password, {
   host: env.host,
   dialect: env.dialect,
   operatorsAliases: false,
+
   pool: {
     max: env.max,
     min: env.pool.min,
@@ -13,11 +13,13 @@ const sequelize = new Sequelize(env.database, env.username, env.password, {
     idle: env.pool.idle
   }
 });
+
 const db = {};
+
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-//  创建用户模型表
-db.user = require('../model/user.model')(sequelize, Sequelize);
+// 引入表模型
+db.book = require('../model/user.model.js')(sequelize, Sequelize);
 
 module.exports = db;

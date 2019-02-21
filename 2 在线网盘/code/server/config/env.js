@@ -1,16 +1,15 @@
-//  数据库配置数据
+//  数据库连接参数
 const env = {
-  host: 'localhost',
+  database: 'book_curd_example',
   username: 'root',
-  password: '123456',
-  database: 'web_disk',
-  port: '3306',
+  password: 'root',
+  host: 'localhost',
   dialect: 'mysql',
   pool: {
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 1000
+    idle: 10000
   }
 };
 module.exports = env;
