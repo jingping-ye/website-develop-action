@@ -10,8 +10,10 @@
           v-model="searchInfo"
           class="search-input"
           size="medium"
+          clearable
           @keyup.enter.native="searchBook"
-          @change="changeSearchInfo">
+          @change="changeSearchInfo"
+          @clear="clearSearchInfo">
           <el-button slot="append"
             icon="el-icon-search"
             @click="searchBook"></el-button>
@@ -89,6 +91,9 @@ export default {
       if (!this.searchInfo) {
         this.getBookList()
       }
+    },
+    clearSearchInfo () {
+      this.getBookList()
     },
     searchBook () {
       let params = {
