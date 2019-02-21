@@ -1,5 +1,7 @@
 一个简单的CURD实例 ---对图书信息进行管理
 ========================
+**目录**
+- [1 开发环境](#1 开发环境)
 
 ## 1 开发环境
 - 前端:vue、axios
@@ -311,6 +313,15 @@ let server = app.listen(process.env.PORT || 8081, () => {
 ### 3.4 接口测试
 使用`postman`工具进行测试
 1. 新建5个接口进行测试
-
-
-输出:
+![新建5个接口用于测试](https://i.imgur.com/sSLicr4.png)
+2. 新增数据接口测试
+![新增数据](https://i.imgur.com/twBJRnw.png)
+![新增结果](https://i.imgur.com/3GE48XW.png)
+3. 删除数据接口测试
+![删除数据](https://i.imgur.com/BgxhmwS.png)
+4. 修改数据接口测试
+![修改数据](https://i.imgur.com/bxcP4pD.png)
+5. 查询所有数据接口测试
+![查询所有数据](https://i.imgur.com/Rf1ViaX.png)
+6. 查询单个实体数据接口测试
+![查询单个实体数据](https://i.imgur.com/ApdsRpQ.png)
