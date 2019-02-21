@@ -853,6 +853,7 @@ export default {
 （1）效果图
 ![图书细节](https://i.imgur.com/oyKpvpS.png)
 ![编辑状态](https://i.imgur.com/uiXv4xR.png)
+
 （2）代码
 
 ```
