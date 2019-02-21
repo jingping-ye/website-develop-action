@@ -367,7 +367,9 @@ let server = app.listen(process.env.PORT || 8081, () => {
 使用`postman`工具进行测试
 
 1. 新建 5 个接口进行测试
+
    ![新建5个接口用于测试](https://i.imgur.com/sSLicr4.png)
+
 2. 新增数据接口测试
    ![新增数据](https://i.imgur.com/twBJRnw.png)
    ![新增结果](https://i.imgur.com/3GE48XW.png)
