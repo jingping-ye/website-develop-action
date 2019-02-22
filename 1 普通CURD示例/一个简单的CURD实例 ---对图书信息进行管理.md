@@ -436,7 +436,7 @@ export default httpInstance
 - 在`main.js`中引入`http.js`文件,并将其注册为 vue 全局变量
 
 ```
-  import http from './util/http'
+  import http from './utils/http'
   Vue.prototype.$http = http
 ```
 
