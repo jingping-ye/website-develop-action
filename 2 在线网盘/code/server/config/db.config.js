@@ -19,7 +19,8 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// 引入表模型
-db.book = require('../model/user.model.js')(sequelize, Sequelize);
+// 引入表模型,数据库表将根据表模型生成
+db.user = require('../model/user.model')(sequelize, Sequelize);
+db.file = require('../model/file.model')(sequelize, Sequelize);
 
 module.exports = db;

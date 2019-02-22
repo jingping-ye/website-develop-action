@@ -8,7 +8,7 @@ module.exports = function(app) {
   app.delete('/file/delete/:fileId', file.delete);
 
   // 下载文件
-  app.get('/file/download', file.download);
+  app.get('/file/download/:fileId', file.download);
 
   // 获取文件信息列表
   app.get('/file/list', file.findAll);

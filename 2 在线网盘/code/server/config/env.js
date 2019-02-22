@@ -1,8 +1,8 @@
 //  数据库连接参数
 const env = {
-  database: 'book_curd_example',
+  database: 'cloud_drive',
   username: 'root',
-  password: 'root',
+  password: '123456',
   host: 'localhost',
   dialect: 'mysql',
   pool: {

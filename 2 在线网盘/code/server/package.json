@@ -5,15 +5,17 @@
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "morgan": "^1.9.1",
+    "mysql2": "^1.6.5",
     "nodemon": "^1.18.10",
     "sequelize": "^4.42.0"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "nodemon src/app.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

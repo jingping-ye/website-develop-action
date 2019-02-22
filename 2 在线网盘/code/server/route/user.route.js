@@ -9,5 +9,5 @@ module.exports = function(app) {
   app.post('/user/validate', user.validate);
 
   //  修改密码
-  app.post('/user/update', user.updatePassWord);
+  app.put('/user/update/:userId', user.updatePassWord);
 };
