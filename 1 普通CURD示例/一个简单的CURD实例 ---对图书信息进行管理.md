@@ -48,7 +48,7 @@ npm run dev
 3. 安装`express`和其他模块
 
 ```
-npm install express body-parser cors morgan nodemon mysql sequelize --save
+npm install express body-parser cors morgan nodemon mysql2 sequelize --save
 ```
 
 - body-parser 解析
