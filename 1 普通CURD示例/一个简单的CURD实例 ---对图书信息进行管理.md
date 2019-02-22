@@ -442,7 +442,7 @@ export default httpInstance
 
 2. 安装`element-ui`模块
 
-- `npm install elemenr-ui --save`
+- `npm install element-ui --save`
 - 在`main.js`中引入`element-ui`模块
 
 ```
