@@ -4,7 +4,8 @@
       在线网盘系统 <span class="label">Cloud Drive</span>
     </div>
     <div class="user">
-      用户:{{username}}&nbsp;&nbsp;<a href="#">退出</a>
+      用户:{{username}}&nbsp;&nbsp;<a href="#"
+        @click="signOut">退出</a>
     </div>
   </div>
 </template>
@@ -18,7 +19,7 @@ export default {
     }
   },
   methods: {
-    exit () {
+    signOut () {
       this.$router.push({ path: '/' })
       sessionStorage.clear()
     }

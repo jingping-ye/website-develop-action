@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const path = require('path');
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -14,6 +16,21 @@ app.use(cors(corsOptions));
 
 const morgan = require('morgan');
 app.use(morgan('combined'));
+
+const md5 = require('md5');
+
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination(req, res, cb) {
+    cb(null, './resource');
+  },
+  filename(req, file, cb) {
+    const fileNameArr = file.originalname.split('.');
+    const fileName = `${md5(fileNameArr[0])}.${fileNameArr[1]}`;
+    cb(null, fileName);
+  }
+});
+app.use(multer({ storage }).any());
 
 const db = require('./config/db.config');
 

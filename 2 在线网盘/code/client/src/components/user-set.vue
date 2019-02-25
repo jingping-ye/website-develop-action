@@ -1,33 +1,33 @@
 <template>
   <div>
-    <el-form :model="ruleForm2"
+    <el-form :model="ruleForm"
       status-icon
-      :rules="rules2"
-      ref="ruleForm2"
+      :rules="rules"
+      ref="ruleForm"
       label-width="100px"
       class="change-password">
       <el-form-item label="原密码"
-        prop="pass">
+        prop="oldPass">
         <el-input type="password"
-          v-model="ruleForm2.pass"
+          v-model="ruleForm.oldPass"
           autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="新密码"
-        prop="checkPass">
+        prop="newPass">
         <el-input type="password"
-          v-model="ruleForm2.checkPass"
+          v-model="ruleForm.newPass"
           autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="确认新密码"
-        prop="checkPass">
+        prop="checkNewPass">
         <el-input type="password"
-          v-model="ruleForm2.checkPass"
+          v-model="ruleForm.checkNewPass"
           autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary"
-          @click="submitForm('ruleForm2')">提交</el-button>
-        <el-button @click="resetForm('ruleForm2')">重置</el-button>
+          @click="submitForm('ruleForm')">提交</el-button>
+        <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -35,51 +35,49 @@
 <script>
 export default {
   data () {
-    var checkAge = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('年龄不能为空'))
-      }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('请输入数字值'))
-        } else {
-          if (value < 18) {
-            callback(new Error('必须年满18岁'))
-          } else {
-            callback()
-          }
-        }
-      }, 1000)
-    };
-    var validatePass = (rule, value, callback) => {
+    //  验证原密码
+    let validateOldPass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
       } else {
-        if (this.ruleForm2.checkPass !== '') {
-          this.$refs.ruleForm2.validateField('checkPass')
+        if (this.ruleForm.oldPass !== '') {
+          this.$refs.ruleForm.validateField('newPass')
         }
         callback()
       }
     }
-    var validatePass2 = (rule, value, callback) => {
+    //  验证新密码
+    var validateNewPass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value !== this.ruleForm2.pass) {
-        callback(new Error('两次输入密码不一致!'))
+        callback(new Error('请输入新密码'))
+      } else if (value === this.ruleForm.oldPass) {
+        callback(new Error('新旧密码不能相同!'))
       } else {
         callback()
       }
     }
+    //  验证再次输入密码
+
+    var validateCheckNewPass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.ruleForm.newPass) {
+        callback(new Error('两次输入密码不一致!!'))
+      } else {
+        callback()
+      }
+    }
+
     return {
-      ruleForm2: {
-        pass: '',
-        checkPass: '',
-        age: ''
+      ruleForm: {
+        oldPass: '',
+        newPass: '',
+        checkNewPass: ''
       },
-      rules2: {
-        pass: [{ validator: validatePass, trigger: 'blur' }],
-        checkPass: [{ validator: validatePass2, trigger: 'blur' }],
-        age: [{ validator: checkAge, trigger: 'blur' }]
+      rules: {
+        oldPass: [{ validator: validateOldPass, trigger: 'blur' }],
+        newPass: [{ validator: validateNewPass, trigger: 'blur' }],
+        checkNewPass: [{ validator: validateCheckNewPass, trigger: 'blur' }]
       }
     }
   },
@@ -87,7 +85,22 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert('submit!')
+          let params = {
+            oldPassword: this.ruleForm.oldPass,
+            newPassword: this.ruleForm.newPass
+          }
+          this.$http
+            .put(`/user/update/${sessionStorage.uid}`, params)
+            .then(res => {
+              this.$message.success('修改密码成功!请重新登录')
+              sessionStorage.clear()
+              setTimeout(() => {
+                this.$router.push({ path: '/' })
+              }, 1000)
+            })
+            .catch(err => {
+              console.log('Error=>', err)
+            })
         } else {
           console.log('error submit!!')
           return false

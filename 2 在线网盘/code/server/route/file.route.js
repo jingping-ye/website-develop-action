@@ -5,11 +5,11 @@ module.exports = function(app) {
   app.post('/file/add', file.create);
 
   //  删除文件
-  app.delete('/file/delete/:fileId', file.delete);
+  app.delete('/file/delete/:fileName/:fileId', file.delete);
 
   // 下载文件
-  app.get('/file/download/:fileId', file.download);
+  app.get('/file/download/:fileName/:fileId', file.download);
 
   // 获取文件信息列表
-  app.get('/file/list', file.findAll);
+  app.post('/file/list', file.findAll);
 };

@@ -12,7 +12,7 @@ exports.create = (req, res) => {
           msg = {
             flag: 1,
             msg: '注册成功!',
-            id: user.uid,
+            uid: user.uid,
             username: user.username
           };
           res.cookie('uid', user.uid, { expires: new Date(Date.now() + 100), httpOnly: true });
@@ -60,7 +60,7 @@ exports.validate = (req, res) => {
           msg = {
             flag: 1,
             msg: '用户名和密码正确!',
-            id: user.uid,
+            uid: user.uid,
             username: user.username
           };
           res.cookie('uid', user.uid, { expires: new Date(Date.now() + 100), httpOnly: true });
@@ -91,7 +91,7 @@ exports.updatePassWord = (req, res) => {
     where: {
       [Op.and]: [
         {
-          uid: req.params.uid
+          uid: req.params.userId
         },
         {
           password: req.body.oldPassword

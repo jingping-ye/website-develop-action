@@ -22,7 +22,8 @@
         <el-form-item label="密码"
           :label-width="formLabelWidth">
           <el-input v-model="form.password"
-            autocomplete="off"></el-input>
+            autocomplete="off"
+            type="password"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer"
@@ -55,7 +56,6 @@ export default {
       this.$http
         .post('/user/validate', this.form)
         .then(res => {
-          console.log('res===', JSON.stringify(res))
           if (res.data.flag === 0) {
             this.$message.error(res.data.msg)
           } else {

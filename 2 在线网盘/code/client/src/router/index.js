@@ -5,7 +5,7 @@ import list from '@/components/tab-list'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -19,3 +19,16 @@ export default new Router({
     }
   ]
 })
+router.beforeEach((to, from, next) => {
+  if (to.name === 'tab-list') {
+    if (!sessionStorage.username) {
+      window.alert('您的登录信息无效或过期，请重新登录')
+      return window.location.replace('/')
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+export default router

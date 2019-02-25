@@ -4,15 +4,16 @@
       style="width: 100%">
       <el-table-column type="index">
       </el-table-column>
-      <el-table-column prop="lastName"
+      <el-table-column prop="file_name"
         label="文件名"
         width="180px">
       </el-table-column>
       <el-table-column prop="size"
         label="文件大小"
-        width="180px">
+        width="180px"
+        :formatter="dealSize">
       </el-table-column>
-      <el-table-column prop="lastTime"
+      <el-table-column prop="upload_time"
         label="上传时间"
         width="180px">
       </el-table-column>
@@ -20,13 +21,16 @@
         label="下载次数"
         width="180px">
       </el-table-column>
+      <el-table-column prop="type"
+        label="类型"
+        width="180px">
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini"
-            @click="handleEdit(scope.$index, scope.row)">预览</el-button>
           <a :href="getFile(scope.row)">
             <el-button size="mini"
-              type="info">下载</el-button>
+              type="info"
+              @click="handleDownload">下载</el-button>
           </a>
           <el-button size="mini"
             type="danger"
@@ -34,10 +38,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <div>
-      预览区
-      <img :src="previewImage">
-    </div>
   </div>
 </template>
 
@@ -45,37 +45,32 @@
 export default {
   data () {
     return {
-      tableData: [],
-      previewImage: null
+      tableData: []
     }
   },
   methods: {
-    handleEdit (index, row) {
-      console.log(index, row)
-    },
     handleDelete (index, row) {
-      console.log(index, row)
-    },
-    handleDownload (index, row) {
-      let params = {
-        filename: row.hashName
-      }
       this.$http
-        .post('file/download', params)
+        .delete(`/file/delete/${row.hash_name}/${row.id}`)
         .then(res => {
-          // window.open('/download?foo=bar&xxx=yyy')
-          let urlCreator = window.URL || window.webkitURL
-          let imageUrl = urlCreator.createObjectURL(res)
-          this.previewImage = imageUrl
+          this.$message.success(res.data.msg)
+          this.refreshFileList()
         })
         .catch(err => {
-          console.log(err)
+          console.log('Error=>', err)
         })
+    },
+    handleDownload () {
+      setTimeout(() => {
+        this.refreshFileList()
+      }, 1000)
+    },
+    refreshFileList () {
+      this.getFileList()
     },
     getFileList () {
       let params = {
-        username: sessionStorage.getItem('username'),
-        pageNum: 1
+        uid: sessionStorage.getItem('uid')
       }
       this.$http
         .post('/file/list', params)
@@ -83,17 +78,22 @@ export default {
           if (res.data.code === 0) {
             this.$message.error(res.data.msg)
           } else {
-            console.log('res====', JSON.stringify(res))
             this.tableData = res.data
           }
-          console.log(JSON.stringify(res))
         })
         .catch(err => {
           console.log(err)
         })
     },
     getFile (data) {
-      return `http://localhost:8081/file/download?filename=${data.hashName}`
+      let url = `http://localhost:8081/file/download/${data.hash_name}/${
+        data.id
+      }`
+      return url
+    },
+    dealSize (row, column) {
+      let fileSize = (row.size / 1024).toFixed(2)
+      return `${fileSize}kb`
     }
   },
   mounted () {
