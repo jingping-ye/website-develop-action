@@ -212,7 +212,9 @@ sequelize-auto -h localhost -d book_curd_example -u root -x 123456 -p 3306 -t bo
 
 2.复制生成的`/models/book.js`文件，粘贴至`/model`目录下，并修改文件名为`/model/book.model.js`,删除生成的`models`目录
 
-参考:[Tutorial | Sequelize | The node.js ORM for PostgreSQL, MySQL, SQLite and MSSQL](http://docs.sequelizejs.com/manual/tutorial/models-definition.html)
+参考:[Model definition - 模型定义 | sequelize-docs-Zh-CN](https://demopark.github.io/sequelize-docs-Zh-CN/models-definition.html)
+
+PS: *此处可能需要根据数据库字段的属性进行调整,比如自增属性*
 
 ### 3.3 编写接口
 
