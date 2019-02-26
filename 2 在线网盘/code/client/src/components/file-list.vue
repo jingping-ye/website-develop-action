@@ -1,6 +1,8 @@
 <template>
   <div>
     <el-table :data="tableData"
+      :cell-style="{'text-align':'center'}"
+      :header-cell-style="{'text-align':'center'}"
       style="width: 100%">
       <el-table-column type="index">
       </el-table-column>
@@ -15,7 +17,8 @@
       </el-table-column>
       <el-table-column prop="upload_time"
         label="上传时间"
-        width="180px">
+        width="180px"
+        :formatter="dealTime">
       </el-table-column>
       <el-table-column prop="download"
         label="下载次数"
@@ -94,6 +97,24 @@ export default {
     dealSize (row, column) {
       let fileSize = (row.size / 1024).toFixed(2)
       return `${fileSize}kb`
+    },
+    dealTime (row, column) {
+      return this.formatTime(row.upload_time)
+    },
+    formatTime (value) {
+      var date = new Date(value)
+      var Y = date.getFullYear()
+      var M =
+        date.getMonth() + 1 < 10
+          ? `0${date.getMonth() + 1}`
+          : date.getMonth() + 1
+      var D = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
+      var h = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+      var m =
+        date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+      var s =
+        date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+      return `${Y}-${M}-${D} ${h}:${m}:${s}`
     }
   },
   mounted () {

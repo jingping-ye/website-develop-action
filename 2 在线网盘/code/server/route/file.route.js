@@ -1,3 +1,4 @@
+//  文件
 module.exports = function(app) {
   const file = require('../controller/file.controller');
 

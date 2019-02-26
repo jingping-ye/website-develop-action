@@ -1,13 +1,15 @@
 <template>
   <div class="show">
     <base-header></base-header>
-    <el-tabs v-model="activedName" class="tab">
-      <el-tab-pane
-        v-for="(item, index) in componentList"
+    <el-tabs v-model="tabActivedName"
+      class="tab"
+      @tab-click="handleClick">
+      <el-tab-pane v-for="(item, index) in componentList"
         :key="index"
-        :label="item.label"
-        :name="item.name">
-        <component :is="item.name" v-if="activedName===item.name"></component>
+        :label="item.tabLabel"
+        :name="item.tabName">
+        <component :is="item.compoName"
+          v-if="tabActivedName===item.tabName"></component>
       </el-tab-pane>
     </el-tabs>
     <base-footer></base-footer>
@@ -15,11 +17,11 @@
 </template>
 
 <script>
-import BaseHeader from '../layout/header'
-import BaseFooter from '../layout/footer'
-import UploadFile from './file-upload'
-import FileList from './file-list'
-import userSet from './user-set'
+import BaseHeader from '../layout/header';
+import BaseFooter from '../layout/footer';
+import UploadFile from './file-upload';
+import FileList from './file-list';
+import userSet from './user-set';
 export default {
   name: 'show',
   components: {
@@ -31,27 +33,31 @@ export default {
   },
   data () {
     return {
-      activedName: 'second',
+      tabActivedName: 'second',
       componentList: [
         {
-          activeName: 'first',
-          name: 'upload-file',
-          label: '上传文件'
+          tabName: 'first',
+          compoName: 'upload-file',
+          tabLabel: '上传文件'
         },
         {
-          activeName: 'second',
-          name: 'file-list',
-          label: '修改密码'
+          tabName: 'second',
+          compoName: 'file-list',
+          tabLabel: '文件列表'
         },
         {
-          activeName: 'user-set',
-          name: 'user-set',
-          label: '文件列表'
+          tabName: 'third',
+          compoName: 'user-set',
+          tabLabel: '用户设置'
         }
       ]
     }
   },
-  methods: {}
+  methods: {
+    handleClick (tab, event) {
+      console.log(tab, event)
+    }
+  }
 }
 </script>
 

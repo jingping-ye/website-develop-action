@@ -43,7 +43,8 @@ exports.delete = (req, res) => {
   File.destroy({
     where: { id: id }
   })
-    .then(file => {
+    .then(_ => {
+      //  从资源文件夹从删除
       let fileName = req.params.fileName;
       let path = `${__dirname}/../resource/${fileName}`;
       fs.unlink(path, err => {

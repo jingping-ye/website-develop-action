@@ -15,7 +15,6 @@ exports.create = (req, res) => {
             uid: user.uid,
             username: user.username
           };
-          res.cookie('uid', user.uid, { expires: new Date(Date.now() + 100), httpOnly: true });
         } else {
           msg = {
             flag: 0,
@@ -63,7 +62,6 @@ exports.validate = (req, res) => {
             uid: user.uid,
             username: user.username
           };
-          res.cookie('uid', user.uid, { expires: new Date(Date.now() + 100), httpOnly: true });
         } else {
           msg = {
             flag: 0,

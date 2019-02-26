@@ -1,4 +1,4 @@
-//  图书的增删改查
+//  用户
 module.exports = function(app) {
   const user = require('../controller/user.controller');
 

@@ -19,6 +19,7 @@ const router = new Router({
     }
   ]
 })
+//  校验登录
 router.beforeEach((to, from, next) => {
   if (to.name === 'tab-list') {
     if (!sessionStorage.username) {
