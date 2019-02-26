@@ -1113,8 +1113,10 @@ export default {
 
 ```
 
-5. `user-set.vue`用户设置组件
-
+5. `user-set.vue`用户设置组件		
+（1）预览
+![用户设置](https://i.imgur.com/Rbqhq4I.png)
+（2）代码
 ```
 <template>
   <div>
