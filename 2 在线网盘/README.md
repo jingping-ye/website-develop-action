@@ -27,7 +27,7 @@
     - [4.2 建立路由](#42-建立路由)
     - [4.3 编写组件](#43-编写组件)
 
-** 代码戳[-->这里](https://github.com/jingping-ye/website-develop-action/tree/master/2%20%E5%9C%A8%E7%BA%BF%E7%BD%91%E7%9B%98/code) **
+**代码戳这里--> [code](https://github.com/jingping-ye/website-develop-action/tree/master/2%20%E5%9C%A8%E7%BA%BF%E7%BD%91%E7%9B%98/code)**
 
 ## 第一章 开发环境准备
 
