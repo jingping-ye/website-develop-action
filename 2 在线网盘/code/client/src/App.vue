@@ -1,13 +1,17 @@
 <template>
-  <div id="app">
+  <div id="app" style="display: block">
     <router-view />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
-}
+  name: "App",
+
+  mounted() {
+    
+  },
+};
 </script>
 
 <style>
@@ -17,6 +21,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  text-align: center;
+}
+#app .el-dialog__title{
+    text-align: left;
+    font-weight: bold;
 }
 </style>

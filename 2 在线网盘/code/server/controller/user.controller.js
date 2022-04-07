@@ -40,22 +40,12 @@ exports.validate = (req, res) => {
   if (req.body.username && req.body.password) {
     User.findOne({
       where: {
-        [Op.and]: [
-          {
-            username: req.body.username
-          },
-          [
-            {
-              password: req.body.password
-            }
-          ]
-        ]
-      },
-      attributes: ['uid', 'username']
+        username: req.body.username
+      }
     })
       .then(user => {
         let msg = {};
-        if (user) {
+        if (user.password === req.body.password) {
           msg = {
             flag: 1,
             msg: '用户名和密码正确!',
@@ -68,16 +58,15 @@ exports.validate = (req, res) => {
             msg: '用户名或密码错误!'
           };
         }
-
         res.status(200).json(msg);
       })
       .catch(err => {
         res.status(500).json('Error -> ' + err);
-      });
+      })
   } else {
     let msg = {
       flag: 0,
-      msg: '用户名或者密码不能为空!'
+      msg: '用户名或密码不能为空!'
     };
     res.status(200).json(msg);
   }

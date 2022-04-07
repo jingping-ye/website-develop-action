@@ -2,8 +2,12 @@ import axios from 'axios'
 
 let httpInstance = axios.create()
 
-httpInstance.defaults.baseURL = 'http://localhost:8081/'
-httpInstance.defaults.timeout = 5000
+
+let protocol = window.location.protocol; //协议
+let host = window.location.host; //主机
+
+httpInstance.defaults.baseURL = `${protocol}//${host}/`
+httpInstance.defaults.timeout = 1000*60*20
 
 httpInstance.formurl = (url, data, config) => {
   return httpInstance.post(url, data, {
@@ -17,7 +21,7 @@ httpInstance.formurl = (url, data, config) => {
 //  request拦截器
 httpInstance.interceptors.request.use(
   config => {
-    console.log(config)
+    // console.log(config)
     return config
   },
   error => {

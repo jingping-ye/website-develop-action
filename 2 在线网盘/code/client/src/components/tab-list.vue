@@ -1,70 +1,81 @@
 <template>
   <div class="show">
     <base-header></base-header>
-    <el-tabs v-model="tabActivedName"
+    <el-tabs
+      v-model="tabActivedName"
+      type="card"
       class="tab"
-      @tab-click="handleClick">
-      <el-tab-pane v-for="(item, index) in componentList"
+      @tab-click="handleClick"
+    >
+      <el-tab-pane
+        v-for="(item, index) in componentList"
         :key="index"
         :label="item.tabLabel"
-        :name="item.tabName">
-        <component :is="item.compoName"
-          v-if="tabActivedName===item.tabName"></component>
+        :name="item.tabName"
+      >
       </el-tab-pane>
     </el-tabs>
+    <FileList v-if="tabActivedName === 'first'"></FileList>
+    <userSet v-if="tabActivedName === 'third'"></userSet>
     <base-footer></base-footer>
   </div>
 </template>
 
 <script>
-import BaseHeader from '../layout/header';
-import BaseFooter from '../layout/footer';
-import UploadFile from './file-upload';
-import FileList from './file-list';
-import userSet from './user-set';
+import BaseHeader from "../layout/header";
+import BaseFooter from "../layout/footer";
+import UploadFile from "./file-upload";
+import FileList from "./file-list";
+import userSet from "./user-set";
+
 export default {
-  name: 'show',
+  name: "show",
   components: {
     BaseHeader,
     BaseFooter,
     UploadFile,
     FileList,
-    userSet
+    userSet,
   },
-  data () {
+  data() {
     return {
-      tabActivedName: 'second',
+      path: "",
+      tabActivedName: "first",
       componentList: [
         {
-          tabName: 'first',
-          compoName: 'upload-file',
-          tabLabel: '上传文件'
+          tabName: "first",
+          compoName: "file-list",
+          tabLabel: "文件列表",
         },
         {
-          tabName: 'second',
-          compoName: 'file-list',
-          tabLabel: '文件列表'
+          tabName: "third",
+          compoName: "user-set",
+          tabLabel: "用户设置",
         },
-        {
-          tabName: 'third',
-          compoName: 'user-set',
-          tabLabel: '用户设置'
-        }
-      ]
-    }
+      ],
+      download: [],
+    };
   },
   methods: {
-    handleClick (tab, event) {
-      console.log(tab, event)
-    }
-  }
-}
+    handleClick(tab, event) {
+      this.tabActivedName = tab.name;
+    },
+    getDownloadList(list) {
+      this.download = list;
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .tab {
-  min-height: 400px;
-  padding: 20px 40px;
+  position: fixed;
+  width: 1200px;
+  left: 50%;
+  top: 140px;
+  background: #fff;
+  z-index: 1999;
+  transform: translateX(-50%);
 }
 </style>
