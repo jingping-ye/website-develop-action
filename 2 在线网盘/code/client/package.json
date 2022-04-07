@@ -2,7 +2,7 @@
   "name": "client",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "jingping.ye <jingping.ye@changhong.com>",
+  "author": "Classmate-Sun",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -14,10 +14,18 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@xunlei/vue-context-menu": "^1.0.2",
     "axios": "^0.18.0",
-    "element-ui": "^2.5.4",
+    "element-ui": "^2.14.1",
+    "js-base64": "^2.5.1",
+    "less": "^3.12.2",
+    "less-loader": "^7.1.0",
+    "pdfjs-dist": "^2.2.228",
+    "stylus": "^0.54.8",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-clipboard2": "^0.3.1",
+    "vue-router": "^3.0.1",
+    "xgplayer": "^2.6.19"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -66,6 +74,7 @@
     "selenium-server": "^3.0.1",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
+    "stylus-loader": "^4.3.1",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-jest": "^1.0.2",

@@ -5,36 +5,40 @@ module.exports = function(sequelize, DataTypes) {
     'file',
     {
       id: {
-        type: DataTypes.INTEGER(10),
+        type: DataTypes.INTEGER(11),
         primaryKey: true,
         autoIncrement: true
       },
       file_name: {
-        type: DataTypes.STRING(200),
+        type: DataTypes.STRING(255),
         allowNull: false
       },
       hash_name: {
-        type: DataTypes.STRING(200),
+        type: DataTypes.STRING(255),
         allowNull: false
       },
       upload_time: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING(255),
         allowNull: false
       },
       type: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(255),
         allowNull: false
       },
       size: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(255),
+        allowNull: false
+      },
+      path: {
+        type: DataTypes.STRING(255),
         allowNull: false
       },
       download: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.INTEGER(11),
         allowNull: false
       },
       uid: {
-        type: DataTypes.INTEGER(10).UNSIGNED,
+        type: DataTypes.INTEGER(11).UNSIGNED,
         allowNull: false,
         references: {
           model: 'user',

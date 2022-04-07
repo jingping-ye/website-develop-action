@@ -1,0 +1,124 @@
+*{
+    -moz-user-select: none;
+    -o-user-select:none;
+    -khtml-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+.el-popup-parent--hidden{
+    padding: 0;
+}
+.messageBoxClass{
+    padding: 0;
+    width: 1200px;
+}
+.messageMp3BoxClass{
+    padding: 0;
+    width: 500px;
+}
+.messageTextBoxClass{
+    padding: 0;
+    width: 600px;
+}
+.messageZIPBoxClass{
+    padding: 0;
+    width: 1000px;
+}
+.messageMp4BoxClass{
+    padding: 0;
+    width: 1100px;
+    height: 653px;
+}
+.messageMediaBoxClass{
+    padding: 0;
+    width: 832px;
+    height: 565px;
+}
+.messagePDFBoxClass{
+    padding: 0;
+    width: 1000px;
+}
+.messageWordBoxClass{
+    padding: 0;
+    width: 1000px;
+    height: 693px;
+}
+.messagePPTBoxClass{
+    padding: 0;
+    width: 1180px;
+    height: 666px;
+}
+.messageExcelBoxClass{
+    padding: 0;
+    width: 1000px;
+    height: 693px;
+}
+.el-message-box__content{
+    padding: 5px 15px 0;
+}
+audio:focus {
+    outline: 0px;
+}
+video:focus {
+    outline: 0px;
+}
+input,pre,xmp{
+    cursor:text;
+}
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    -moz-user-select:text;
+    -o-user-select:text;
+    -khtml-user-select:text;
+    -webkit-user-select:text;
+    -ms-user-select:text;
+    user-select:text;
+}
+xmp,input{
+    -moz-user-select:text;
+    -o-user-select:text;
+    -khtml-user-select:text;
+    -webkit-user-select:text;
+    -ms-user-select:text;
+    user-select:text;
+}
+xmp{
+    white-space:pre-wrap;
+    white-space:-moz-pre-wrap;
+    white-space:-pre-wrap;
+    white-space:-o-pre-wrap;
+    word-wrap:break-word;
+}
+.el-table__body-wrapper{
+    padding: 0;
+}
+::-webkit-scrollbar {
+    width: 0;
+}
+.el-progress {
+    width: 75%;
+    float: left;
+}
+.el-progress-bar {
+    padding-right: 64px;
+    margin-right: -80px;
+}
+.el-progress__text{
+    width: 66px;
+    text-align: right;
+}
+.el-popover{
+    height: 500px;
+    overflow-y: auto;
+}
+.downloadListBox {
+    z-index: 10000;
+}
+.searchDownload {
+  font-size: 23px;
+}
+.focusing{
+    border: #FFF solid 0;
+}

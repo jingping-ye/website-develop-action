@@ -5,16 +5,16 @@ module.exports = function(sequelize, DataTypes) {
     'user',
     {
       uid: {
-        type: DataTypes.INTEGER(10).UNSIGNED,
+        type: DataTypes.INTEGER(11).UNSIGNED,
         primaryKey: true,
         autoIncrement: true
       },
       username: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(255),
         allowNull: false
       },
       password: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(255),
         allowNull: false
       }
     },
